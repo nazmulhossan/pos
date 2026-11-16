@@ -30,11 +30,11 @@ export function AuthProvider({ children }) {
             setUser(res.user);
             if (res.settings) setSettings(res.settings);
           } catch (err) {
-            console.warn('Session expired or invalid, logging in as demo admin');
-            await loginAsDemo('admin');
+            console.warn('Session expired or invalid, clearing token');
+            localStorage.removeItem('pos_token');
+            setToken(null);
+            setUser(null);
           }
-        } else {
-          await loginAsDemo('admin');
         }
       } catch (err) {
         console.error('Failed to initialize session:', err);

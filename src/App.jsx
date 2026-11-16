@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
+import LoginView from './views/LoginView';
 import PosBillingView from './views/PosBillingView';
 import SalesReturnsView from './views/SalesReturnsView';
 import InventoryBatchesView from './views/InventoryBatchesView';
@@ -25,6 +26,10 @@ export default function App() {
         <div className="text-xs text-slate-500 mt-1">Loading FEFO batch inventory engine</div>
       </div>
     );
+  }
+
+  if (!user) {
+    return <LoginView />;
   }
 
   return (

@@ -166,6 +166,22 @@ export default function Navbar({ activeTab, setActiveTab }) {
                   </div>
                   <span className="text-[10px] text-slate-400">Stock & Purchases</span>
                 </button>
+
+                {/* Log Out / Switch Account */}
+                <div className="pt-1.5 mt-1.5 border-t border-slate-700/60">
+                  <button
+                    onClick={() => {
+                      logout();
+                      setShowRoleMenu(false);
+                    }}
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs text-rose-400 hover:bg-rose-500/10 transition-colors font-medium"
+                  >
+                    <div className="flex items-center gap-2">
+                      <LogOut className="w-4 h-4" />
+                      <span>Log Out / Switch Account</span>
+                    </div>
+                  </button>
+                </div>
               </div>
             )}
           </div>
