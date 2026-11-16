@@ -1,0 +1,201 @@
+import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { Printer, CheckCircle, X, Download } from 'lucide-react';
+
+export default function ReceiptModal({ invoice, onClose }) {
+  const { settings } = useAuth();
+  const [paperFormat, setPaperFormat] = useState(settings.default_receipt_type || '80mm');
+
+  if (!invoice) return null;
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const currency = settings.currency_symbol || '৳';
+
+  return (
+    <div className="fixed inset-0 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 z-50 overflow-y-auto">
+      <div className="bg-slate-900 border border-slate-700 rounded-2xl max-w-xl w-full p-6 shadow-2xl flex flex-col max-h-[95vh]">
+        {/* Header Actions */}
+        <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+          <div className="flex items-center gap-2">
+            <CheckCircle className="w-5 h-5 text-emerald-400" />
+            <h3 className="text-base font-bold text-white">Invoice Completed Successfully</h3>
+          </div>
+          <button onClick={onClose} className="p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Paper Format Selector */}
+        <div className="flex items-center justify-between py-3">
+          <span className="text-xs text-slate-400 font-medium">Receipt Paper Format:</span>
+          <div className="flex items-center gap-1.5 p-1 bg-slate-800 rounded-xl border border-slate-700">
+            <button
+              onClick={() => setPaperFormat('80mm')}
+              className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
+                paperFormat === '80mm' ? 'bg-emerald-600 text-white shadow' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              Thermal 80mm
+            </button>
+            <button
+              onClick={() => setPaperFormat('58mm')}
+              className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
+                paperFormat === '58mm' ? 'bg-emerald-600 text-white shadow' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              Thermal 58mm
+            </button>
+            <button
+              onClick={() => setPaperFormat('a4')}
+              className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
+                paperFormat === 'a4' ? 'bg-emerald-600 text-white shadow' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              A4 Invoice
+            </button>
+          </div>
+        </div>
+
+        {/* Printable Receipt Preview Container */}
+        <div className="flex-1 overflow-y-auto my-2 p-4 bg-slate-950/60 rounded-xl border border-slate-800/80 flex justify-center">
+          <div
+            id="printable-receipt"
+            className={`bg-white text-black p-5 shadow-lg font-mono text-xs ${
+              paperFormat === '58mm' ? 'w-[240px] text-[10px] p-3' : paperFormat === '80mm' ? 'w-[320px] text-[11px] p-4' : 'w-full max-w-[600px] text-xs p-6'
+            }`}
+          >
+            {/* Pharmacy Branding */}
+            <div className="text-center pb-3 border-b border-dashed border-gray-400 mb-3">
+              <h2 className="text-sm font-bold tracking-tight uppercase">{settings.pharmacy_name || 'MediCare Central'}</h2>
+              <p className="text-[10px] text-gray-600 mt-0.5">{settings.address || 'Dhaka, Bangladesh'}</p>
+              <p className="text-[10px] text-gray-600">Hotline: {settings.phone || '+880 1711-000000'}</p>
+              <p className="text-[10px] font-semibold text-gray-700 mt-1">*** CASH RECEIPT ***</p>
+            </div>
+
+            {/* Invoice Meta */}
+            <div className="space-y-0.5 text-[10px] border-b border-dashed border-gray-400 pb-2 mb-2">
+              <div className="flex justify-between">
+                <span>Invoice: <strong className="text-black">{invoice.invoice_number}</strong></span>
+                <span>Date: {new Date(invoice.sale_date).toLocaleDateString()}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Cashier: {invoice.cashier_name}</span>
+                <span>Time: {new Date(invoice.sale_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+              </div>
+              {invoice.customer && (
+                <div className="pt-1 text-[10px]">
+                  <div>Customer: <strong>{invoice.customer.name}</strong></div>
+                  <div>Phone: {invoice.customer.phone}</div>
+                </div>
+              )}
+            </div>
+
+            {/* Items Table */}
+            <table className="w-full text-left border-collapse mb-2">
+              <thead>
+                <tr className="border-b border-gray-400 text-[10px]">
+                  <th className="py-1">Item [Batch]</th>
+                  <th className="py-1 text-center">Unit</th>
+                  <th className="py-1 text-right">Qty</th>
+                  <th className="py-1 text-right">Total</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {invoice.items.map((it, idx) => (
+                  <tr key={idx} className="text-[10px]">
+                    <td className="py-1 pr-1">
+                      <div className="font-semibold text-gray-900 leading-tight">{it.brand_name}</div>
+                      <div className="text-[9px] text-gray-500 font-mono">B:{it.batch_number} ({it.total_pieces_deducted} pcs)</div>
+                    </td>
+                    <td className="py-1 text-center capitalize">{it.sold_unit_type.toLowerCase()}</td>
+                    <td className="py-1 text-right">{it.qty_sold_in_unit}</td>
+                    <td className="py-1 text-right font-medium">{currency}{it.subtotal.toFixed(2)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {/* Totals */}
+            <div className="border-t border-dashed border-gray-400 pt-2 space-y-1 text-[11px]">
+              <div className="flex justify-between">
+                <span>Subtotal:</span>
+                <span>{currency}{invoice.subtotal.toFixed(2)}</span>
+              </div>
+              {invoice.discount_amount > 0 && (
+                <div className="flex justify-between text-gray-700">
+                  <span>Discount:</span>
+                  <span>-{currency}{invoice.discount_amount.toFixed(2)}</span>
+                </div>
+              )}
+              {invoice.vat_amount > 0 && (
+                <div className="flex justify-between text-gray-700">
+                  <span>VAT ({settings.vat_percent}%):</span>
+                  <span>+{currency}{invoice.vat_amount.toFixed(2)}</span>
+                </div>
+              )}
+              <div className="flex justify-between text-xs font-bold pt-1 border-t border-gray-300">
+                <span>NET PAYABLE:</span>
+                <span>{currency}{invoice.grand_total.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between text-[10px]">
+                <span>Paid ({invoice.payment_method}):</span>
+                <span>{currency}{invoice.paid_amount.toFixed(2)}</span>
+              </div>
+              {invoice.payment_breakdown?.change > 0 && (
+                <div className="flex justify-between text-[10px] font-semibold text-emerald-800">
+                  <span>Change Return:</span>
+                  <span>{currency}{parseFloat(invoice.payment_breakdown.change).toFixed(2)}</span>
+                </div>
+              )}
+              {invoice.due_amount > 0 && (
+                <div className="flex justify-between text-[10px] font-bold text-red-700">
+                  <span>Due Added:</span>
+                  <span>{currency}{invoice.due_amount.toFixed(2)}</span>
+                </div>
+              )}
+              {invoice.customer && invoice.customer.total_due > 0 && (
+                <div className="flex justify-between text-[10px] font-semibold text-red-800 border-t border-dotted border-gray-400 pt-1">
+                  <span>Total Customer Due:</span>
+                  <span>{currency}{invoice.customer.total_due.toFixed(2)}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Barcode & Footer */}
+            <div className="text-center pt-4 border-t border-dashed border-gray-400 mt-3">
+              {/* Simulated barcode */}
+              <div className="font-mono tracking-widest text-center text-sm font-bold my-1 tracking-widest border-y border-black py-0.5">
+                |||||| | |||| ||| ||||||| | |||
+              </div>
+              <div className="text-[9px] font-mono">{invoice.invoice_number}</div>
+              <p className="text-[9px] text-gray-500 mt-2">Thank you for visiting {settings.pharmacy_name || 'MediCare'}!</p>
+              <p className="text-[8px] text-gray-400">Medicines sold with valid prescription cannot be returned after 7 days.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="pt-3 border-t border-slate-800 flex items-center justify-between gap-3">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-xs transition-colors"
+          >
+            New Sale (Esc)
+          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handlePrint}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-900/30 transition-all active:scale-95"
+            >
+              <Printer className="w-4 h-4" />
+              <span>Print Receipt (Ctrl+P)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
