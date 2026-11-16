@@ -22,22 +22,25 @@ export function AuthProvider({ children }) {
   // Load session
   useEffect(() => {
     async function initAuth() {
-      const storedToken = localStorage.getItem('pos_token');
-      if (storedToken) {
-        try {
-          const res = await api.getMe();
-          setUser(res.user);
-          if (res.settings) setSettings(res.settings);
-        } catch (err) {
-          console.warn('Session expired or invalid, logging in as demo admin');
-          // Auto login as admin for instant seamless experience
+      try {
+        const storedToken = localStorage.getItem('pos_token');
+        if (storedToken) {
+          try {
+            const res = await api.getMe();
+            setUser(res.user);
+            if (res.settings) setSettings(res.settings);
+          } catch (err) {
+            console.warn('Session expired or invalid, logging in as demo admin');
+            await loginAsDemo('admin');
+          }
+        } else {
           await loginAsDemo('admin');
         }
-      } else {
-        // Auto-login as default demo Admin for instant access
-        await loginAsDemo('admin');
+      } catch (err) {
+        console.error('Failed to initialize session:', err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
     initAuth();
   }, []);
