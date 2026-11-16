@@ -64,8 +64,8 @@
 }
 
 /* ============================================================
-   DEFAULT LIGHT MODE STYLES (html.light)
-   Transforms dark palette into a modern clinical light UI
+   PREMIUM CLINICAL LIGHT MODE DESIGN SYSTEM (html.light)
+   Transforms the terminal into a world-class pharmacy POS
    ============================================================ */
 html.light {
   color-scheme: light;
@@ -76,7 +76,7 @@ html.light body {
   color: #0f172a !important;
 }
 
-/* Background surfaces */
+/* --- Base Surfaces & Containers --- */
 html.light .bg-slate-950 {
   background-color: #f8fafc !important;
   color: #0f172a !important;
@@ -85,56 +85,80 @@ html.light .bg-slate-950 {
 html.light .bg-slate-900 {
   background-color: #ffffff !important;
   color: #0f172a !important;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
 }
 
 html.light .bg-slate-900\/90,
 html.light .bg-slate-900\/80 {
-  background-color: rgba(255, 255, 255, 0.97) !important;
+  background-color: rgba(255, 255, 255, 0.98) !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light .bg-slate-850 {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light .bg-slate-850\/80,
+html.light .bg-slate-850\/90 {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
 }
 
 html.light .bg-slate-800 {
   background-color: #f1f5f9 !important;
   color: #1e293b !important;
+  border-color: #e2e8f0 !important;
 }
 
 html.light .bg-slate-800\/80,
-html.light .bg-slate-800\/90 {
-  background-color: rgba(241, 245, 249, 0.95) !important;
+html.light .bg-slate-800\/90,
+html.light .bg-slate-800\/60 {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
 }
 
 html.light .bg-slate-750,
 html.light .bg-slate-700 {
   background-color: #e2e8f0 !important;
+  color: #1e293b !important;
+  border-color: #cbd5e1 !important;
 }
 
 html.light .bg-slate-950\/60,
 html.light .bg-slate-950\/80 {
   background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
 }
 
-/* Borders */
+/* --- Borders & Dividers --- */
+html.light .border-slate-900,
 html.light .border-slate-800,
 html.light .border-slate-750,
 html.light .border-slate-700,
 html.light .border-slate-700\/80,
 html.light .border-slate-700\/60,
-html.light .border-slate-800\/60,
-html.light .border-slate-800\/80 {
+html.light .border-slate-800\/80,
+html.light .border-slate-800\/60 {
   border-color: #e2e8f0 !important;
 }
 
-html.light .divide-slate-700\/60,
-html.light .divide-slate-800 {
-  border-color: #e2e8f0 !important;
+html.light .divide-slate-800,
+html.light .divide-slate-700,
+html.light .divide-slate-700\/60 {
+  border-color: #f1f5f9 !important;
 }
 
-/* Text colors */
-html.light .text-white,
-html.light .text-slate-100 {
+/* --- Typography & Text Contrast --- */
+html.light h1:not([class*="text-emerald-"]):not([class*="text-white"]),
+html.light h2:not([class*="text-emerald-"]):not([class*="text-white"]),
+html.light h3:not([class*="text-emerald-"]):not([class*="text-white"]),
+html.light h4:not([class*="text-emerald-"]):not([class*="text-white"]) {
   color: #0f172a !important;
 }
 
+html.light .text-slate-100,
 html.light .text-slate-200 {
   color: #1e293b !important;
 }
@@ -151,13 +175,87 @@ html.light .text-slate-500 {
   color: #64748b !important;
 }
 
-/* Inputs, selects, and textareas */
+/* White text inside dark cards should convert to slate-900, UNLESS on colored buttons/pills */
+html.light .bg-slate-900 > .text-white,
+html.light .bg-slate-800 > .text-white,
+html.light div:not([class*="bg-emerald-"]):not([class*="bg-sky-"]):not([class*="bg-blue-"]):not([class*="bg-rose-"]):not([class*="bg-indigo-"]) > span.text-white,
+html.light tr > td .text-white {
+  color: #0f172a !important;
+}
+
+/* --- CRITICAL: PROTECT HIGH-CONTRAST COLORED BUTTONS & PILLS --- */
+html.light button.bg-emerald-600,
+html.light button.bg-emerald-500,
+html.light button.bg-emerald-700,
+html.light .bg-emerald-600,
+html.light .bg-emerald-700,
+html.light [class*="bg-emerald-600"],
+html.light button[class*="bg-emerald-"],
+html.light button[class*="bg-rose-"],
+html.light button[class*="bg-sky-"],
+html.light button[class*="bg-blue-"],
+html.light button[class*="bg-indigo-"] {
+  color: #ffffff !important;
+}
+
+html.light button[class*="bg-emerald-"] *,
+html.light button[class*="bg-rose-"] *,
+html.light button[class*="bg-sky-"] *,
+html.light button[class*="bg-blue-"] *,
+html.light button[class*="bg-indigo-"] *,
+html.light [class*="bg-emerald-600"] .text-white,
+html.light [class*="bg-rose-600"] .text-white,
+html.light [class*="bg-rose-500"] .text-white,
+html.light .text-white.bg-emerald-600 {
+  color: #ffffff !important;
+}
+
+/* Primary emerald button polish */
+html.light button.bg-emerald-600 {
+  background-color: #059669 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px 0 rgba(5, 150, 105, 0.25) !important;
+}
+
+html.light button.bg-emerald-600:hover:not(:disabled) {
+  background-color: #047857 !important;
+  color: #ffffff !important;
+}
+
+html.light button.bg-emerald-600:disabled {
+  opacity: 0.5 !important;
+}
+
+/* Secondary slate buttons in light mode */
+html.light button.bg-slate-800,
+html.light button.bg-slate-700 {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #1e293b !important;
+}
+
+html.light button.bg-slate-800:hover,
+html.light button.bg-slate-700:hover {
+  background-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+/* --- Form Inputs, Selects & Textareas --- */
 html.light input:not([type="checkbox"]):not([type="radio"]),
 html.light select,
 html.light textarea {
   background-color: #ffffff !important;
   color: #0f172a !important;
-  border-color: #cbd5e1 !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04) !important;
+}
+
+html.light input:focus,
+html.light select:focus,
+html.light textarea:focus {
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15) !important;
+  outline: none !important;
 }
 
 html.light input::placeholder,
@@ -165,19 +263,161 @@ html.light textarea::placeholder {
   color: #94a3b8 !important;
 }
 
+/* --- Tables & Lists --- */
+html.light thead {
+  background-color: #f8fafc !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+html.light th {
+  color: #475569 !important;
+  background-color: #f8fafc !important;
+  font-weight: 700 !important;
+}
+
+html.light tbody tr {
+  border-color: #f1f5f9 !important;
+}
+
+html.light tbody tr:hover,
 html.light tr.hover\:bg-slate-800\/50:hover,
+html.light tr.hover\:bg-slate-800\/40:hover,
 html.light tr.hover\:bg-slate-750:hover {
-  background-color: #f1f5f9 !important;
+  background-color: #f8fafc !important;
 }
 
 html.light .hover\:bg-slate-800:hover,
 html.light .hover\:bg-slate-750:hover {
-  background-color: #e2e8f0 !important;
+  background-color: #f1f5f9 !important;
+}
+
+/* --- POS Billing Highlights & Badges --- */
+/* Net Payable Summary Box in POS */
+html.light .bg-emerald-950\/40,
+html.light .bg-emerald-950\/50 {
+  background-color: #ecfdf5 !important;
+  border-color: #a7f3d0 !important;
+}
+
+html.light .bg-emerald-950\/40 .text-emerald-400,
+html.light .bg-emerald-950\/40 span.text-emerald-400 {
+  color: #047857 !important;
+}
+
+/* Badge colors */
+html.light .bg-emerald-500\/20,
+html.light .bg-emerald-500\/10 {
+  background-color: #ecfdf5 !important;
+  border-color: #a7f3d0 !important;
+  color: #065f46 !important;
+}
+html.light .text-emerald-400,
+html.light .text-emerald-300 {
+  color: #059669 !important;
+}
+
+html.light .bg-rose-500\/20,
+html.light .bg-rose-500\/10 {
+  background-color: #fff1f2 !important;
+  border-color: #fecdd3 !important;
+  color: #9f1239 !important;
+}
+html.light .text-rose-400,
+html.light .text-rose-300 {
+  color: #e11d48 !important;
+}
+
+html.light .bg-amber-500\/20,
+html.light .bg-amber-500\/10 {
+  background-color: #fffbeb !important;
+  border-color: #fde68a !important;
+  color: #92400e !important;
+}
+html.light .text-amber-400,
+html.light .text-amber-300 {
+  color: #b45309 !important;
+}
+
+html.light .bg-sky-500\/20,
+html.light .bg-sky-500\/10 {
+  background-color: #f0f9ff !important;
+  border-color: #bae6fd !important;
+  color: #0369a1 !important;
+}
+html.light .text-sky-400,
+html.light .text-sky-300 {
+  color: #0284c7 !important;
+}
+
+/* --- Header & Navigation Bar in Light Mode --- */
+html.light header {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light header .text-white {
+  color: #0f172a !important;
+}
+
+html.light header button.bg-slate-800 {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #334155 !important;
+}
+
+html.light header button.bg-slate-800:hover {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+html.light header .bg-slate-900 {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+  color: #475569 !important;
+}
+
+/* Navbar active and inactive tabs */
+html.light nav button.bg-slate-800 {
+  background-color: #ffffff !important;
+  color: #059669 !important;
+  border-top-color: #059669 !important;
+  box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.03) !important;
+}
+
+html.light nav button.text-slate-400 {
+  color: #64748b !important;
+}
+
+html.light nav button:hover {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+/* --- Modal Overlays & Windows in Light Mode --- */
+html.light .fixed.inset-0.bg-black\/80,
+html.light .fixed.inset-0.bg-black\/75,
+html.light .fixed.inset-0.bg-black\/60 {
+  background-color: rgba(15, 23, 42, 0.45) !important;
+  backdrop-filter: blur(6px) !important;
+}
+
+html.light .fixed.inset-0 .bg-slate-900,
+html.light .fixed.inset-0 .bg-slate-800 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important;
+  color: #0f172a !important;
+}
+
+html.light .fixed.inset-0 .bg-slate-900 .text-white,
+html.light .fixed.inset-0 .bg-slate-800 .text-white {
+  color: #0f172a !important;
 }
 
 /* Scrollbars in light mode */
 html.light ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #f8fafc;
 }
 html.light ::-webkit-scrollbar-thumb {
   background: #cbd5e1;

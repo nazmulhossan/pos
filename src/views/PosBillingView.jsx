@@ -100,11 +100,15 @@ export default function PosBillingView() {
         setShowPrescriptionModal(false);
         setShowCheckoutModal(false);
         setSearchResults([]);
+        if (completedInvoice) {
+          setCompletedInvoice(null);
+          setTimeout(() => searchInputRef.current?.focus(), 50);
+        }
         return;
       }
 
       // If user is inside an input modal, don't hijack
-      if (showCheckoutModal || showCustomerModal || showSubstituteModal || holdModalMode) {
+      if (showCheckoutModal || showCustomerModal || showSubstituteModal || holdModalMode || completedInvoice) {
         return;
       }
 
@@ -163,7 +167,7 @@ export default function PosBillingView() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [cart, selectedCartIndex, searchResults, selectedResultIndex, showCheckoutModal, showCustomerModal, showSubstituteModal, holdModalMode]);
+  }, [cart, selectedCartIndex, searchResults, selectedResultIndex, showCheckoutModal, showCustomerModal, showSubstituteModal, holdModalMode, completedInvoice]);
 
   // Real-time search query
   useEffect(() => {
@@ -439,6 +443,8 @@ export default function PosBillingView() {
       setDiscountValue(0);
       setSearchQuery('');
       setSearchResults([]);
+      setTenderedAmount('');
+      setSplitPayments({ cash: 0, card: 0, mfs: 0, due: 0 });
       setShowCheckoutModal(false);
       setCompletedInvoice(res.invoice);
     } catch (err) {
@@ -1199,7 +1205,10 @@ export default function PosBillingView() {
       {completedInvoice && (
         <ReceiptModal
           invoice={completedInvoice}
-          onClose={() => setCompletedInvoice(null)}
+          onClose={() => {
+            setCompletedInvoice(null);
+            setTimeout(() => searchInputRef.current?.focus(), 50);
+          }}
         />
       )}
     </div>

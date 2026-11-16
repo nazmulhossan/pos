@@ -293,6 +293,8 @@ export const mockApi = {
         .filter(b => b.medicine_id === item.medicine_id && b.stock_qty_pieces > 0)
         .sort((a, b) => a.expiry_date.localeCompare(b.expiry_date));
 
+      const primaryBatch = batches[0] || (db.medicine_batches || []).find(b => b.medicine_id === item.medicine_id) || {};
+
       batches.forEach(b => {
         if (remaining <= 0) return;
         const deduct = Math.min(b.stock_qty_pieces, remaining);
@@ -300,8 +302,7 @@ export const mockApi = {
         remaining -= deduct;
       });
 
-      const firstBatch = (db.medicine_batches || []).find(b => b.medicine_id === item.medicine_id) || {};
-      const piecePrice = firstBatch.selling_price_piece || 10;
+      const piecePrice = primaryBatch.selling_price_piece || 10;
       let calculatedUnitPrice = item.unit_price;
       if (!calculatedUnitPrice) {
         if (item.sold_unit_type === 'STRIP') calculatedUnitPrice = +(piecePrice * (med ? med.pieces_per_strip : 10)).toFixed(2);
@@ -313,42 +314,83 @@ export const mockApi = {
       subtotal += lineTotal;
 
       billedItems.push({
-        batch_id: batches[0]?.batch_id || null,
-        batch_number: batches[0]?.batch_number || 'BATCH-01',
+        batch_id: primaryBatch.batch_id || null,
+        batch_number: primaryBatch.batch_number || 'BATCH-01',
         medicine_id: item.medicine_id,
         brand_name: med ? med.brand_name : 'Item',
         dosage_form: med ? med.dosage_form : '',
         strength: med ? med.strength : '',
-        sold_unit_type: item.sold_unit_type,
-        qty_sold_in_unit: item.qty_sold_in_unit,
+        sold_unit_type: item.sold_unit_type || 'PIECE',
+        qty_sold_in_unit: item.qty_sold_in_unit || 1,
         total_pieces_deducted: totalPiecesNeeded,
         unit_price: calculatedUnitPrice,
         subtotal: lineTotal
       });
     });
 
+    subtotal = +subtotal.toFixed(2);
+
     const discountAmount = data.discount_type === 'PERCENT'
-      ? (subtotal * (parseFloat(data.discount_value) || 0) / 100)
-      : (parseFloat(data.discount_value) || 0);
+      ? +((subtotal * (parseFloat(data.discount_value) || 0)) / 100).toFixed(2)
+      : +(parseFloat(data.discount_value) || 0).toFixed(2);
 
     const afterDiscount = Math.max(0, subtotal - discountAmount);
     const vatPercent = parseFloat(data.vat_percent_custom ?? 5);
-    const vatAmount = (afterDiscount * vatPercent) / 100;
+    const vatAmount = +((afterDiscount * vatPercent) / 100).toFixed(2);
     const grandTotal = Math.round(afterDiscount + vatAmount);
+
+    // Payment validation & Customer Due calculation
+    const breakdown = data.payment_breakdown || {};
+    let paidAmount = 0;
+    let dueAmount = 0;
+    const pm = (data.payment_method || 'CASH').toUpperCase();
+
+    if (pm === 'CASH') {
+      const tendered = parseFloat(breakdown.tendered) !== undefined && !isNaN(parseFloat(breakdown.tendered))
+        ? parseFloat(breakdown.tendered)
+        : grandTotal;
+      paidAmount = Math.min(tendered, grandTotal);
+      dueAmount = Math.max(0, grandTotal - paidAmount);
+    } else if (pm === 'DUE') {
+      paidAmount = 0;
+      dueAmount = grandTotal;
+    } else if (pm === 'SPLIT') {
+      const splitCash = parseFloat(breakdown.cash) || 0;
+      const splitCard = parseFloat(breakdown.card) || 0;
+      const splitMfs = parseFloat(breakdown.mfs) || 0;
+      paidAmount = splitCash + splitCard + splitMfs;
+      dueAmount = Math.max(0, grandTotal - paidAmount);
+    } else {
+      // CARD or MFS (bKash / Nagad / Rocket)
+      paidAmount = grandTotal;
+      dueAmount = 0;
+    }
+
+    paidAmount = +paidAmount.toFixed(2);
+    dueAmount = +dueAmount.toFixed(2);
+
+    if (dueAmount > 0 && !data.customer_id) {
+      throw new Error('Customer selection/registration is strictly REQUIRED for credit/due sales.');
+    }
 
     const invoice = {
       invoice_id: invoiceSeq,
       invoice_number: invoiceNumber,
       customer_id: data.customer_id || null,
+      subtotal: subtotal,
       subtotal_amount: subtotal,
       discount_amount: discountAmount,
       vat_amount: vatAmount,
       grand_total: grandTotal,
-      paid_amount: data.payment_method === 'DUE' ? 0 : grandTotal,
-      due_amount: data.payment_method === 'DUE' ? grandTotal : 0,
-      payment_method: data.payment_method || 'CASH',
+      paid_amount: paidAmount,
+      due_amount: dueAmount,
+      payment_method: pm,
+      payment_breakdown: breakdown,
+      prescription_url: data.prescription_url || null,
+      sale_date: today,
       created_at: today,
-      status: 'PAID'
+      cashier_name: (db.users && db.users[0]?.full_name) || 'Admin Cashier',
+      status: dueAmount > 0 ? 'PARTIAL' : 'PAID'
     };
 
     db.sales_invoices.unshift(invoice);
@@ -365,12 +407,13 @@ export const mockApi = {
     // Customer loyalty & balance update
     let customer = null;
     if (data.customer_id) {
-      customer = db.customers.find(c => c.customer_id === parseInt(data.customer_id, 10));
+      customer = (db.customers || []).find(c => c.customer_id === parseInt(data.customer_id, 10));
       if (customer) {
         customer.loyalty_points = (customer.loyalty_points || 0) + Math.floor(grandTotal / 100);
         customer.total_purchased = (customer.total_purchased || 0) + grandTotal;
-        if (invoice.due_amount > 0) {
-          customer.current_due_balance = (customer.current_due_balance || 0) + invoice.due_amount;
+        if (dueAmount > 0) {
+          customer.current_due_balance = (customer.current_due_balance || 0) + dueAmount;
+          customer.total_due = (customer.total_due || 0) + dueAmount;
         }
       }
     }
