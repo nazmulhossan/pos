@@ -290,8 +290,17 @@ export default function MedicineCatalogView() {
                     <td className="py-3 px-4 text-center font-mono text-slate-400">
                       {m.reorder_level} pcs
                     </td>
-                    <td className="py-3 px-4 text-center font-mono font-bold text-emerald-400">
-                      {m.total_stock_pieces} pcs
+                    <td className="py-3 px-4 text-center font-mono">
+                      <div className="flex flex-col items-center">
+                        <span className={`font-bold ${(m.total_stock_pieces ?? m.totalStockPieces ?? 0) > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                          {(m.total_stock_pieces ?? m.totalStockPieces ?? 0)} pcs active
+                        </span>
+                        {m.expired_stock_pieces > 0 && (
+                          <span className="text-[10px] text-amber-400 font-medium">
+                            +{m.expired_stock_pieces} expired (blocked)
+                          </span>
+                        )}
+                      </div>
                     </td>
                     {canEdit && (
                       <td className="py-3 px-4 text-center">

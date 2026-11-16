@@ -1,6 +1,6 @@
 import initialData from './seedData.json';
 
-const STORAGE_KEY = 'pos_v3_clean_store';
+const STORAGE_KEY = 'pos_v4_unified_sync';
 
 function getDb() {
   const stored = localStorage.getItem(STORAGE_KEY);
@@ -178,18 +178,26 @@ export const mockApi = {
   getMedicines: async () => {
     const db = getDb();
     const today = new Date().toISOString().split('T')[0];
-    return db.medicines.map(m => {
-      const g = db.generics.find(x => x.generic_id === m.generic_id) || {};
-      const mf = db.manufacturers.find(x => x.manufacturer_id === m.manufacturer_id) || {};
-      const batches = (db.medicine_batches || []).filter(b => b.medicine_id === m.medicine_id && b.stock_qty_pieces > 0);
-      const totalStockPieces = batches.reduce((acc, b) => acc + b.stock_qty_pieces, 0);
-      const firstBatch = batches[0] || {};
+    return (db.medicines || []).map(m => {
+      const g = (db.generics || []).find(x => x.generic_id === m.generic_id) || {};
+      const mf = (db.manufacturers || []).find(x => x.manufacturer_id === m.manufacturer_id) || {};
+
+      const activeBatches = (db.medicine_batches || []).filter(b => b.medicine_id === m.medicine_id && b.stock_qty_pieces > 0 && b.expiry_date >= today);
+      const expiredBatches = (db.medicine_batches || []).filter(b => b.medicine_id === m.medicine_id && b.stock_qty_pieces > 0 && b.expiry_date < today);
+
+      const activePieces = activeBatches.reduce((acc, b) => acc + b.stock_qty_pieces, 0);
+      const expiredPieces = expiredBatches.reduce((acc, b) => acc + b.stock_qty_pieces, 0);
+      const firstBatch = activeBatches[0] || (db.medicine_batches || []).find(b => b.medicine_id === m.medicine_id) || {};
+
       return {
         ...m,
         generic_name: g.generic_name || '',
         manufacturer_name: mf.name || '',
-        totalStockPieces,
-        batches_count: batches.length,
+        total_stock_pieces: activePieces,
+        totalStockPieces: activePieces,
+        available_pieces: activePieces,
+        expired_stock_pieces: expiredPieces,
+        batches_count: activeBatches.length,
         default_selling_price: firstBatch.selling_price_piece || 0
       };
     });

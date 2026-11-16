@@ -190,7 +190,12 @@ router.get('/', authenticateToken, (req, res) => {
         SELECT SUM(stock_qty_pieces) 
         FROM medicine_batches b 
         WHERE b.medicine_id = m.medicine_id AND b.expiry_date >= date('now')
-      ), 0) as total_stock_pieces
+      ), 0) as total_stock_pieces,
+      COALESCE((
+        SELECT SUM(stock_qty_pieces) 
+        FROM medicine_batches b 
+        WHERE b.medicine_id = m.medicine_id AND b.expiry_date < date('now')
+      ), 0) as expired_stock_pieces
     FROM medicines m
     JOIN generics g ON m.generic_id = g.generic_id
     JOIN manufacturers mf ON m.manufacturer_id = mf.manufacturer_id
