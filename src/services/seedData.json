@@ -1,0 +1,1067 @@
+{
+  "settings": [
+    {
+      "key": "pharmacy_name",
+      "value": "MediCare Central Pharmacy & Healthcare"
+    },
+    {
+      "key": "pharmacy_tagline",
+      "value": "Your Trusted Health & Wellness Partner"
+    },
+    {
+      "key": "address",
+      "value": "House #42, Road #11, Banani, Dhaka-1213"
+    },
+    {
+      "key": "phone",
+      "value": "+880 1711-000000"
+    },
+    {
+      "key": "email",
+      "value": "contact@medicare-central.com"
+    },
+    {
+      "key": "vat_percent",
+      "value": "5"
+    },
+    {
+      "key": "currency_symbol",
+      "value": "৳"
+    },
+    {
+      "key": "max_discount_pharmacist",
+      "value": "10"
+    },
+    {
+      "key": "max_discount_inventory_manager",
+      "value": "20"
+    },
+    {
+      "key": "max_discount_admin",
+      "value": "100"
+    },
+    {
+      "key": "default_receipt_type",
+      "value": "80mm"
+    },
+    {
+      "key": "invoice_prefix",
+      "value": "INV-"
+    }
+  ],
+  "users": [
+    {
+      "user_id": 1,
+      "full_name": "Dr. Rafiqul Islam (Admin / Owner)",
+      "username": "admin",
+      "password_hash": "$2b$10$.LBxpFqxL4S/VTNPKrbsZ.FGilGatXngMQip7kKf1Ys5k0iJw34Wu",
+      "role": "ADMIN",
+      "is_active": 1,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "user_id": 2,
+      "full_name": "Tanvir Ahmed (Licensed Pharmacist)",
+      "username": "pharmacist",
+      "password_hash": "$2b$10$.LBxpFqxL4S/VTNPKrbsZ.e/nnWDZM2H2Wcm.bV0vetRFLQO.fL1C",
+      "role": "PHARMACIST",
+      "is_active": 1,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "user_id": 3,
+      "full_name": "Shirin Akter (Inventory Manager)",
+      "username": "manager",
+      "password_hash": "$2b$10$.LBxpFqxL4S/VTNPKrbsZ.9hfgAqFGhNBoQCGa6gE/qg44Pv7alUO",
+      "role": "INVENTORY_MANAGER",
+      "is_active": 1,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "user_id": 4,
+      "full_name": "Nazmul Hossan",
+      "username": "nazmul",
+      "password_hash": "$2b$10$NzePMp3sWwDIENf4QRkQIect3Dl55yOECqY4.NaxfTaG/L1/4F3i2",
+      "role": "PHARMACIST",
+      "is_active": 1,
+      "created_at": "2026-11-16 16:48:52"
+    },
+    {
+      "user_id": 5,
+      "full_name": "NAZMUL HOSSAN",
+      "username": "nazmuladmin",
+      "password_hash": "$2b$10$h.Ai14MAslj88B.Hq9VGtugTt.cfV6nJppAu2aFUfyaF5/2mTFyRi",
+      "role": "ADMIN",
+      "is_active": 1,
+      "created_at": "2026-11-16 17:12:30"
+    }
+  ],
+  "generics": [
+    {
+      "generic_id": 1,
+      "generic_name": "Paracetamol",
+      "description": "Analgesic and antipyretic medication used to treat fever and mild to moderate pain."
+    },
+    {
+      "generic_id": 2,
+      "generic_name": "Paracetamol + Caffeine",
+      "description": "Combination analgesic formulation offering enhanced pain relief."
+    },
+    {
+      "generic_id": 3,
+      "generic_name": "Esomeprazole",
+      "description": "Proton pump inhibitor (PPI) that reduces stomach acid production."
+    },
+    {
+      "generic_id": 4,
+      "generic_name": "Omeprazole",
+      "description": "Proton pump inhibitor used to treat gastric and duodenal ulcers and GERD."
+    },
+    {
+      "generic_id": 5,
+      "generic_name": "Montelukast Sodium",
+      "description": "Leukotriene receptor antagonist for the maintenance treatment of asthma and allergic rhinitis."
+    },
+    {
+      "generic_id": 6,
+      "generic_name": "Azithromycin",
+      "description": "Macrolide antibiotic used for bacterial infections of the respiratory tract and skin."
+    },
+    {
+      "generic_id": 7,
+      "generic_name": "Cefixime",
+      "description": "Third-generation cephalosporin antibiotic effective against a broad spectrum of bacteria."
+    },
+    {
+      "generic_id": 8,
+      "generic_name": "Metformin HCl",
+      "description": "First-line biguanide medication for the treatment of type 2 diabetes."
+    },
+    {
+      "generic_id": 9,
+      "generic_name": "Amlodipine",
+      "description": "Calcium channel blocker used to treat high blood pressure and coronary artery disease."
+    },
+    {
+      "generic_id": 10,
+      "generic_name": "Losartan Potassium",
+      "description": "Angiotensin II receptor antagonist used mainly to treat high blood pressure."
+    },
+    {
+      "generic_id": 11,
+      "generic_name": "Fexofenadine HCl",
+      "description": "Second-generation antihistamine used in the treatment of allergy symptoms."
+    },
+    {
+      "generic_id": 12,
+      "generic_name": "Rosuvastatin",
+      "description": "Statin lipid-lowering medication used to prevent cardiovascular disease."
+    },
+    {
+      "generic_id": 13,
+      "generic_name": "Pantoprazole",
+      "description": "Proton pump inhibitor for gastroesophageal reflux disease and acid peptic disorders."
+    },
+    {
+      "generic_id": 14,
+      "generic_name": "Ciprofloxacin",
+      "description": "Fluoroquinolone antibiotic for urinary tract, gastrointestinal, and respiratory infections."
+    },
+    {
+      "generic_id": 15,
+      "generic_name": "Cetirizine HCl",
+      "description": "Antihistamine medication used to treat hay fever, allergies, and angioedema."
+    }
+  ],
+  "manufacturers": [
+    {
+      "manufacturer_id": 1,
+      "name": "Square Pharmaceuticals Ltd.",
+      "contact_info": "Square Centre, 48 Mohakhali C/A, Dhaka-1212. Phone: +880-2-8833047"
+    },
+    {
+      "manufacturer_id": 2,
+      "name": "Beximco Pharmaceuticals Ltd.",
+      "contact_info": "19 Dhanmondi R/A, Road #7, Dhaka-1205. Phone: +880-2-58611001"
+    },
+    {
+      "manufacturer_id": 3,
+      "name": "Incepta Pharmaceuticals Ltd.",
+      "contact_info": "40 Shahid Tajuddin Ahmed Sarani, Tejgaon I/A, Dhaka-1208."
+    },
+    {
+      "manufacturer_id": 4,
+      "name": "Renata Limited",
+      "contact_info": "Plot #1, Milk Vita Road, Section-7, Mirpur, Dhaka-1216."
+    },
+    {
+      "manufacturer_id": 5,
+      "name": "Opsonin Pharma Limited",
+      "contact_info": "Opsonin Building, 30 New Eskaton Road, Dhaka-1000."
+    },
+    {
+      "manufacturer_id": 6,
+      "name": "Eskayef Pharmaceuticals Ltd.",
+      "contact_info": "Gulshan Tower, Plot-31, Road-53, Gulshan North C/A, Dhaka."
+    },
+    {
+      "manufacturer_id": 7,
+      "name": "The ACME Laboratories Ltd.",
+      "contact_info": "Court de la ACME, 1/4 Kallayanpur, Mirpur Road, Dhaka-1207."
+    }
+  ],
+  "medicines": [
+    {
+      "medicine_id": 1,
+      "brand_name": "Napa 500mg",
+      "generic_id": 1,
+      "manufacturer_id": 2,
+      "dosage_form": "Tablet",
+      "strength": "500mg",
+      "barcode": "8901234001",
+      "pieces_per_strip": 10,
+      "strips_per_box": 50,
+      "reorder_level": 100,
+      "is_rx_required": 0,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 2,
+      "brand_name": "Napa Extra",
+      "generic_id": 2,
+      "manufacturer_id": 2,
+      "dosage_form": "Tablet",
+      "strength": "500mg + 65mg",
+      "barcode": "8901234002",
+      "pieces_per_strip": 10,
+      "strips_per_box": 20,
+      "reorder_level": 80,
+      "is_rx_required": 0,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 3,
+      "brand_name": "Ace Plus",
+      "generic_id": 2,
+      "manufacturer_id": 1,
+      "dosage_form": "Tablet",
+      "strength": "500mg + 65mg",
+      "barcode": "8901234003",
+      "pieces_per_strip": 10,
+      "strips_per_box": 20,
+      "reorder_level": 80,
+      "is_rx_required": 0,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 4,
+      "brand_name": "Fast 500mg",
+      "generic_id": 1,
+      "manufacturer_id": 7,
+      "dosage_form": "Tablet",
+      "strength": "500mg",
+      "barcode": "8901234004",
+      "pieces_per_strip": 10,
+      "strips_per_box": 50,
+      "reorder_level": 50,
+      "is_rx_required": 0,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 5,
+      "brand_name": "Seclo 20mg",
+      "generic_id": 4,
+      "manufacturer_id": 1,
+      "dosage_form": "Capsule",
+      "strength": "20mg",
+      "barcode": "8901234005",
+      "pieces_per_strip": 10,
+      "strips_per_box": 10,
+      "reorder_level": 60,
+      "is_rx_required": 0,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 6,
+      "brand_name": "Maxpro 20mg",
+      "generic_id": 3,
+      "manufacturer_id": 4,
+      "dosage_form": "Tablet",
+      "strength": "20mg",
+      "barcode": "8901234006",
+      "pieces_per_strip": 14,
+      "strips_per_box": 8,
+      "reorder_level": 60,
+      "is_rx_required": 0,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 7,
+      "brand_name": "Sergel 20mg",
+      "generic_id": 3,
+      "manufacturer_id": 3,
+      "dosage_form": "Capsule",
+      "strength": "20mg",
+      "barcode": "8901234007",
+      "pieces_per_strip": 10,
+      "strips_per_box": 10,
+      "reorder_level": 60,
+      "is_rx_required": 0,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 8,
+      "brand_name": "Pantodac 20mg",
+      "generic_id": 13,
+      "manufacturer_id": 2,
+      "dosage_form": "Tablet",
+      "strength": "20mg",
+      "barcode": "8901234008",
+      "pieces_per_strip": 10,
+      "strips_per_box": 10,
+      "reorder_level": 50,
+      "is_rx_required": 0,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 9,
+      "brand_name": "Monas 10mg",
+      "generic_id": 5,
+      "manufacturer_id": 7,
+      "dosage_form": "Tablet",
+      "strength": "10mg",
+      "barcode": "8901234009",
+      "pieces_per_strip": 10,
+      "strips_per_box": 3,
+      "reorder_level": 30,
+      "is_rx_required": 1,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 10,
+      "brand_name": "Montene 10mg",
+      "generic_id": 5,
+      "manufacturer_id": 3,
+      "dosage_form": "Tablet",
+      "strength": "10mg",
+      "barcode": "8901234010",
+      "pieces_per_strip": 10,
+      "strips_per_box": 3,
+      "reorder_level": 30,
+      "is_rx_required": 1,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 11,
+      "brand_name": "Alatrol 10mg",
+      "generic_id": 15,
+      "manufacturer_id": 1,
+      "dosage_form": "Tablet",
+      "strength": "10mg",
+      "barcode": "8901234011",
+      "pieces_per_strip": 10,
+      "strips_per_box": 10,
+      "reorder_level": 50,
+      "is_rx_required": 0,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 12,
+      "brand_name": "Fexo 120mg",
+      "generic_id": 11,
+      "manufacturer_id": 1,
+      "dosage_form": "Tablet",
+      "strength": "120mg",
+      "barcode": "8901234012",
+      "pieces_per_strip": 10,
+      "strips_per_box": 5,
+      "reorder_level": 40,
+      "is_rx_required": 0,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 13,
+      "brand_name": "Zimax 500mg",
+      "generic_id": 6,
+      "manufacturer_id": 1,
+      "dosage_form": "Tablet",
+      "strength": "500mg",
+      "barcode": "8901234013",
+      "pieces_per_strip": 6,
+      "strips_per_box": 3,
+      "reorder_level": 20,
+      "is_rx_required": 1,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 14,
+      "brand_name": "Azithrocin 500mg",
+      "generic_id": 6,
+      "manufacturer_id": 2,
+      "dosage_form": "Tablet",
+      "strength": "500mg",
+      "barcode": "8901234014",
+      "pieces_per_strip": 6,
+      "strips_per_box": 3,
+      "reorder_level": 20,
+      "is_rx_required": 1,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 15,
+      "brand_name": "Cef-3 200mg",
+      "generic_id": 7,
+      "manufacturer_id": 1,
+      "dosage_form": "Capsule",
+      "strength": "200mg",
+      "barcode": "8901234015",
+      "pieces_per_strip": 8,
+      "strips_per_box": 2,
+      "reorder_level": 16,
+      "is_rx_required": 1,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 16,
+      "brand_name": "Ciprocin 500mg",
+      "generic_id": 14,
+      "manufacturer_id": 1,
+      "dosage_form": "Tablet",
+      "strength": "500mg",
+      "barcode": "8901234016",
+      "pieces_per_strip": 10,
+      "strips_per_box": 3,
+      "reorder_level": 20,
+      "is_rx_required": 1,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 17,
+      "brand_name": "Comet 500mg",
+      "generic_id": 8,
+      "manufacturer_id": 1,
+      "dosage_form": "Tablet",
+      "strength": "500mg",
+      "barcode": "8901234017",
+      "pieces_per_strip": 10,
+      "strips_per_box": 10,
+      "reorder_level": 50,
+      "is_rx_required": 1,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 18,
+      "brand_name": "Camlodin 5mg",
+      "generic_id": 9,
+      "manufacturer_id": 1,
+      "dosage_form": "Tablet",
+      "strength": "5mg",
+      "barcode": "8901234018",
+      "pieces_per_strip": 10,
+      "strips_per_box": 5,
+      "reorder_level": 40,
+      "is_rx_required": 1,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 19,
+      "brand_name": "Osartil 50mg",
+      "generic_id": 10,
+      "manufacturer_id": 3,
+      "dosage_form": "Tablet",
+      "strength": "50mg",
+      "barcode": "8901234019",
+      "pieces_per_strip": 10,
+      "strips_per_box": 3,
+      "reorder_level": 30,
+      "is_rx_required": 1,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "medicine_id": 20,
+      "brand_name": "Rovista 10mg",
+      "generic_id": 12,
+      "manufacturer_id": 2,
+      "dosage_form": "Tablet",
+      "strength": "10mg",
+      "barcode": "8901234020",
+      "pieces_per_strip": 10,
+      "strips_per_box": 3,
+      "reorder_level": 30,
+      "is_rx_required": 1,
+      "created_at": "2026-11-16 16:13:08"
+    }
+  ],
+  "medicine_batches": [
+    {
+      "batch_id": 1,
+      "medicine_id": 2,
+      "batch_number": "NX-2026A",
+      "expiry_date": "2027-04-10",
+      "purchase_price_piece": 2.1,
+      "selling_price_piece": 3,
+      "stock_qty_pieces": 100,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 2,
+      "medicine_id": 2,
+      "batch_number": "NX-2026B",
+      "expiry_date": "2028-01-15",
+      "purchase_price_piece": 2.2,
+      "selling_price_piece": 3,
+      "stock_qty_pieces": 350,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 3,
+      "medicine_id": 2,
+      "batch_number": "NX-EXP-OLD",
+      "expiry_date": "2026-08-10",
+      "purchase_price_piece": 1.9,
+      "selling_price_piece": 3,
+      "stock_qty_pieces": 25,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 4,
+      "medicine_id": 3,
+      "batch_number": "AP-2501",
+      "expiry_date": "2027-08-20",
+      "purchase_price_piece": 2.05,
+      "selling_price_piece": 3,
+      "stock_qty_pieces": 170,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 5,
+      "medicine_id": 1,
+      "batch_number": "NP-501",
+      "expiry_date": "2027-12-30",
+      "purchase_price_piece": 0.85,
+      "selling_price_piece": 1.2,
+      "stock_qty_pieces": 500,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 6,
+      "medicine_id": 1,
+      "batch_number": "NP-EXP-SOON",
+      "expiry_date": "2026-12-05",
+      "purchase_price_piece": 0.8,
+      "selling_price_piece": 1.2,
+      "stock_qty_pieces": 30,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 7,
+      "medicine_id": 4,
+      "batch_number": "FS-101",
+      "expiry_date": "2027-06-15",
+      "purchase_price_piece": 0.8,
+      "selling_price_piece": 1.2,
+      "stock_qty_pieces": 150,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 8,
+      "medicine_id": 5,
+      "batch_number": "SC-881",
+      "expiry_date": "2027-09-01",
+      "purchase_price_piece": 4.2,
+      "selling_price_piece": 6,
+      "stock_qty_pieces": 180,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 9,
+      "medicine_id": 6,
+      "batch_number": "MX-701",
+      "expiry_date": "2027-11-20",
+      "purchase_price_piece": 5.6,
+      "selling_price_piece": 8,
+      "stock_qty_pieces": 112,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 10,
+      "medicine_id": 6,
+      "batch_number": "MX-702",
+      "expiry_date": "2028-03-10",
+      "purchase_price_piece": 5.8,
+      "selling_price_piece": 8,
+      "stock_qty_pieces": 224,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 11,
+      "medicine_id": 7,
+      "batch_number": "SG-901",
+      "expiry_date": "2027-05-18",
+      "purchase_price_piece": 5.5,
+      "selling_price_piece": 8,
+      "stock_qty_pieces": 150,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 12,
+      "medicine_id": 8,
+      "batch_number": "PT-402",
+      "expiry_date": "2027-10-05",
+      "purchase_price_piece": 4.8,
+      "selling_price_piece": 7,
+      "stock_qty_pieces": 100,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 13,
+      "medicine_id": 9,
+      "batch_number": "MN-101",
+      "expiry_date": "2027-01-05",
+      "purchase_price_piece": 11.5,
+      "selling_price_piece": 16,
+      "stock_qty_pieces": 60,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 14,
+      "medicine_id": 9,
+      "batch_number": "MN-102",
+      "expiry_date": "2027-11-30",
+      "purchase_price_piece": 11.8,
+      "selling_price_piece": 16,
+      "stock_qty_pieces": 120,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 15,
+      "medicine_id": 10,
+      "batch_number": "MT-550",
+      "expiry_date": "2027-07-22",
+      "purchase_price_piece": 11.2,
+      "selling_price_piece": 16,
+      "stock_qty_pieces": 90,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 16,
+      "medicine_id": 11,
+      "batch_number": "AL-301",
+      "expiry_date": "2027-12-12",
+      "purchase_price_piece": 2.2,
+      "selling_price_piece": 3.5,
+      "stock_qty_pieces": 150,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 17,
+      "medicine_id": 12,
+      "batch_number": "FX-120",
+      "expiry_date": "2027-10-10",
+      "purchase_price_piece": 6.5,
+      "selling_price_piece": 9,
+      "stock_qty_pieces": 70,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 18,
+      "medicine_id": 13,
+      "batch_number": "ZX-501",
+      "expiry_date": "2027-02-05",
+      "purchase_price_piece": 26,
+      "selling_price_piece": 35,
+      "stock_qty_pieces": 36,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 19,
+      "medicine_id": 14,
+      "batch_number": "AZ-991",
+      "expiry_date": "2027-09-15",
+      "purchase_price_piece": 25.5,
+      "selling_price_piece": 35,
+      "stock_qty_pieces": 42,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 20,
+      "medicine_id": 15,
+      "batch_number": "CF-200",
+      "expiry_date": "2027-08-30",
+      "purchase_price_piece": 38,
+      "selling_price_piece": 50,
+      "stock_qty_pieces": 12,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 21,
+      "medicine_id": 16,
+      "batch_number": "CP-501",
+      "expiry_date": "2027-11-01",
+      "purchase_price_piece": 11,
+      "selling_price_piece": 15,
+      "stock_qty_pieces": 60,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 22,
+      "medicine_id": 17,
+      "batch_number": "CM-501",
+      "expiry_date": "2027-12-01",
+      "purchase_price_piece": 2.8,
+      "selling_price_piece": 4,
+      "stock_qty_pieces": 20,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 23,
+      "medicine_id": 18,
+      "batch_number": "CD-501",
+      "expiry_date": "2027-06-30",
+      "purchase_price_piece": 3.5,
+      "selling_price_piece": 5,
+      "stock_qty_pieces": 80,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 24,
+      "medicine_id": 19,
+      "batch_number": "OS-501",
+      "expiry_date": "2027-09-25",
+      "purchase_price_piece": 5.6,
+      "selling_price_piece": 8,
+      "stock_qty_pieces": 70,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "batch_id": 25,
+      "medicine_id": 20,
+      "batch_number": "RV-101",
+      "expiry_date": "2027-12-15",
+      "purchase_price_piece": 13.5,
+      "selling_price_piece": 18,
+      "stock_qty_pieces": 60,
+      "created_at": "2026-11-16 16:13:08"
+    }
+  ],
+  "customers": [
+    {
+      "customer_id": 1,
+      "name": "Kazi Muntasir Billah",
+      "phone": "01712345678",
+      "address": "House 14, Road 5, Block C, Banani, Dhaka",
+      "total_due": 450,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "customer_id": 2,
+      "name": "Farhana Yasmin",
+      "phone": "01898765432",
+      "address": "Flat 4B, Green View Appt, Gulshan-2, Dhaka",
+      "total_due": 0,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "customer_id": 3,
+      "name": "Mahfuzul Haque",
+      "phone": "01911223344",
+      "address": "Plot 22, Sector 4, Uttara, Dhaka",
+      "total_due": 1250,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "customer_id": 4,
+      "name": "Nusrat Jahan",
+      "phone": "01677889900",
+      "address": "House 5, Road 8, Dhanmondi, Dhaka",
+      "total_due": 0,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "customer_id": 5,
+      "name": "Tareq Monowar",
+      "phone": "01755667788",
+      "address": "35/A Siddeshwari Circular Road, Dhaka",
+      "total_due": 85,
+      "created_at": "2026-11-16 16:13:08"
+    }
+  ],
+  "suppliers": [
+    {
+      "supplier_id": 1,
+      "company_name": "Square Pharma Distribution Hub",
+      "contact_person": "Mahbub Alam",
+      "phone": "+880 1711-223344",
+      "total_due": 15400,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "supplier_id": 2,
+      "company_name": "Beximco Logistics & Wholesale",
+      "contact_person": "Shahidul Karim",
+      "phone": "+880 1819-334455",
+      "total_due": 8200,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "supplier_id": 3,
+      "company_name": "Incepta Agency Direct",
+      "contact_person": "Kamal Uddin",
+      "phone": "+880 1912-445566",
+      "total_due": 0,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "supplier_id": 4,
+      "company_name": "Renata Healthcare Distribution",
+      "contact_person": "Fahim Reza",
+      "phone": "+880 1610-556677",
+      "total_due": 4500,
+      "created_at": "2026-11-16 16:13:08"
+    },
+    {
+      "supplier_id": 5,
+      "company_name": "Universal Medicine Traders Ltd.",
+      "contact_person": "Anisur Rahman",
+      "phone": "+880 1722-667788",
+      "total_due": 12350,
+      "created_at": "2026-11-16 16:13:08"
+    }
+  ],
+  "sales_invoices": [
+    {
+      "invoice_id": 1,
+      "invoice_number": "INV-2026-0001",
+      "customer_id": 1,
+      "user_id": 2,
+      "sale_date": "2026-11-15 16:13:08",
+      "subtotal": 340,
+      "discount_amount": 17,
+      "vat_amount": 16.15,
+      "grand_total": 339.15,
+      "paid_amount": 339.15,
+      "due_amount": 0,
+      "payment_method": "BKASH",
+      "payment_breakdown": "{\"method\":\"BKASH\",\"trxId\":\"BK9928174\"}",
+      "prescription_url": null,
+      "notes": null
+    },
+    {
+      "invoice_id": 2,
+      "invoice_number": "INV-2026-0002",
+      "customer_id": null,
+      "user_id": 2,
+      "sale_date": "2026-11-16 14:13:08",
+      "subtotal": 90,
+      "discount_amount": 0,
+      "vat_amount": 4.5,
+      "grand_total": 94.5,
+      "paid_amount": 100,
+      "due_amount": 0,
+      "payment_method": "CASH",
+      "payment_breakdown": "{\"method\":\"CASH\",\"tendered\":100,\"change\":5.5}",
+      "prescription_url": null,
+      "notes": null
+    },
+    {
+      "invoice_id": 3,
+      "invoice_number": "INV-2026-0003",
+      "customer_id": 1,
+      "user_id": 2,
+      "sale_date": "2026-11-16 15:43:08",
+      "subtotal": 160,
+      "discount_amount": 10,
+      "vat_amount": 7.5,
+      "grand_total": 157.5,
+      "paid_amount": 100,
+      "due_amount": 57.5,
+      "payment_method": "SPLIT",
+      "payment_breakdown": "{\"method\":\"SPLIT\",\"cash\":100,\"due\":57.5}",
+      "prescription_url": null,
+      "notes": null
+    },
+    {
+      "invoice_id": 4,
+      "invoice_number": "INV-2026-0004",
+      "customer_id": null,
+      "user_id": 2,
+      "sale_date": "2026-11-16 16:15:58",
+      "subtotal": 60,
+      "discount_amount": 3,
+      "vat_amount": 2.85,
+      "grand_total": 60,
+      "paid_amount": 60,
+      "due_amount": 0,
+      "payment_method": "CASH",
+      "payment_breakdown": "{\"tendered\":100,\"change\":40}",
+      "prescription_url": null,
+      "notes": null
+    },
+    {
+      "invoice_id": 5,
+      "invoice_number": "INV-2026-0005",
+      "customer_id": null,
+      "user_id": 2,
+      "sale_date": "2026-11-16 16:28:17",
+      "subtotal": 60,
+      "discount_amount": 3,
+      "vat_amount": 2.85,
+      "grand_total": 60,
+      "paid_amount": 60,
+      "due_amount": 0,
+      "payment_method": "CASH",
+      "payment_breakdown": "{\"tendered\":100,\"change\":40}",
+      "prescription_url": null,
+      "notes": null
+    },
+    {
+      "invoice_id": 6,
+      "invoice_number": "INV-2026-0006",
+      "customer_id": null,
+      "user_id": 2,
+      "sale_date": "2026-11-16 16:37:58",
+      "subtotal": 35,
+      "discount_amount": 0,
+      "vat_amount": 1.75,
+      "grand_total": 37,
+      "paid_amount": 37,
+      "due_amount": 0,
+      "payment_method": "CASH",
+      "payment_breakdown": "{\"method\":\"CASH\",\"tendered\":37,\"change\":0}",
+      "prescription_url": null,
+      "notes": null
+    },
+    {
+      "invoice_id": 7,
+      "invoice_number": "INV-2026-0007",
+      "customer_id": null,
+      "user_id": 2,
+      "sale_date": "2026-11-16 16:40:31",
+      "subtotal": 192,
+      "discount_amount": 0,
+      "vat_amount": 9.6,
+      "grand_total": 202,
+      "paid_amount": 202,
+      "due_amount": 0,
+      "payment_method": "BKASH",
+      "payment_breakdown": "{\"method\":\"BKASH\",\"mfsDetails\":{\"provider\":\"bKash\",\"mobile\":\"1100000000\",\"trxId\":\"cxhsjhdsd\"}}",
+      "prescription_url": null,
+      "notes": null
+    }
+  ],
+  "sales_items": [
+    {
+      "sales_item_id": 1,
+      "invoice_id": 1,
+      "batch_id": 1,
+      "sold_unit_type": "STRIP",
+      "qty_sold_in_unit": 2,
+      "total_pieces_deducted": 20,
+      "unit_price": 30,
+      "subtotal": 60
+    },
+    {
+      "sales_item_id": 2,
+      "invoice_id": 1,
+      "batch_id": 9,
+      "sold_unit_type": "STRIP",
+      "qty_sold_in_unit": 2,
+      "total_pieces_deducted": 28,
+      "unit_price": 112,
+      "subtotal": 224
+    },
+    {
+      "sales_item_id": 3,
+      "invoice_id": 2,
+      "batch_id": 1,
+      "sold_unit_type": "STRIP",
+      "qty_sold_in_unit": 3,
+      "total_pieces_deducted": 30,
+      "unit_price": 30,
+      "subtotal": 90
+    },
+    {
+      "sales_item_id": 4,
+      "invoice_id": 3,
+      "batch_id": 9,
+      "sold_unit_type": "PIECE",
+      "qty_sold_in_unit": 20,
+      "total_pieces_deducted": 20,
+      "unit_price": 8,
+      "subtotal": 160
+    },
+    {
+      "sales_item_id": 5,
+      "invoice_id": 4,
+      "batch_id": 1,
+      "sold_unit_type": "STRIP",
+      "qty_sold_in_unit": 2,
+      "total_pieces_deducted": 20,
+      "unit_price": 30,
+      "subtotal": 60
+    },
+    {
+      "sales_item_id": 6,
+      "invoice_id": 5,
+      "batch_id": 1,
+      "sold_unit_type": "STRIP",
+      "qty_sold_in_unit": 2,
+      "total_pieces_deducted": 20,
+      "unit_price": 30,
+      "subtotal": 60
+    },
+    {
+      "sales_item_id": 7,
+      "invoice_id": 6,
+      "batch_id": 16,
+      "sold_unit_type": "STRIP",
+      "qty_sold_in_unit": 1,
+      "total_pieces_deducted": 10,
+      "unit_price": 35,
+      "subtotal": 35
+    },
+    {
+      "sales_item_id": 8,
+      "invoice_id": 7,
+      "batch_id": 4,
+      "sold_unit_type": "STRIP",
+      "qty_sold_in_unit": 3,
+      "total_pieces_deducted": 30,
+      "unit_price": 30,
+      "subtotal": 90
+    },
+    {
+      "sales_item_id": 9,
+      "invoice_id": 7,
+      "batch_id": 17,
+      "sold_unit_type": "STRIP",
+      "qty_sold_in_unit": 1,
+      "total_pieces_deducted": 10,
+      "unit_price": 90,
+      "subtotal": 90
+    },
+    {
+      "sales_item_id": 10,
+      "invoice_id": 7,
+      "batch_id": 6,
+      "sold_unit_type": "STRIP",
+      "qty_sold_in_unit": 1,
+      "total_pieces_deducted": 10,
+      "unit_price": 12,
+      "subtotal": 12
+    }
+  ],
+  "held_bills": [],
+  "damage_write_offs": [
+    {
+      "write_off_id": 1,
+      "batch_id": 3,
+      "user_id": 1,
+      "quantity_pieces": 10,
+      "reason": "EXPIRED",
+      "loss_amount": 19,
+      "notes": "Expired past safe date. Written off from active stock.",
+      "created_at": "2026-11-16 16:13:08"
+    }
+  ]
+}
