@@ -1,6 +1,6 @@
 import initialData from './seedData.json';
 
-const STORAGE_KEY = 'pos_demo_db_v1';
+const STORAGE_KEY = 'pos_production_db_v2';
 
 function getDb() {
   const stored = localStorage.getItem(STORAGE_KEY);
@@ -681,13 +681,29 @@ export const mockApi = {
 
   getFastMoving: async (limit) => {
     const db = getDb();
-    return (db.medicines || []).slice(0, limit || 10).map((m, idx) => ({
-      medicine_id: m.medicine_id,
-      brand_name: m.brand_name,
-      strength: m.strength,
-      total_pieces_sold: 1500 - (idx * 120),
-      total_revenue: (1500 - (idx * 120)) * 10
-    }));
+    const itemMap = {};
+    (db.sales_items || []).forEach(item => {
+      const b = (db.medicine_batches || []).find(x => x.batch_id === item.batch_id);
+      const mId = b ? b.medicine_id : item.medicine_id;
+      if (mId) {
+        if (!itemMap[mId]) itemMap[mId] = { pieces: 0, revenue: 0 };
+        itemMap[mId].pieces += (item.total_pieces_deducted || item.qty_sold_in_unit || 1);
+        itemMap[mId].revenue += (item.subtotal || 0);
+      }
+    });
+
+    const results = Object.keys(itemMap).map(mId => {
+      const med = (db.medicines || []).find(m => m.medicine_id === parseInt(mId, 10)) || {};
+      return {
+        medicine_id: parseInt(mId, 10),
+        brand_name: med.brand_name || 'Medicine',
+        strength: med.strength || '',
+        total_pieces_sold: itemMap[mId].pieces,
+        total_revenue: itemMap[mId].revenue
+      };
+    }).sort((a, b) => b.total_pieces_sold - a.total_pieces_sold);
+
+    return results.slice(0, limit || 10);
   },
 
   getExpiryLossReport: async () => {

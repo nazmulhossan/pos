@@ -38,10 +38,10 @@ function seedDatabase() {
       VALUES (?, ?, ?, ?, ?)
     `);
 
-    insertUser.run('Dr. Rafiqul Islam (Admin / Owner)', 'admin', adminHash, 'ADMIN', 1);
-    insertUser.run('Tanvir Ahmed (Licensed Pharmacist)', 'pharmacist', pharmHash, 'PHARMACIST', 1);
-    insertUser.run('Shirin Akter (Inventory Manager)', 'manager', mgrHash, 'INVENTORY_MANAGER', 1);
-    console.log('Default users created: admin/admin123, pharmacist/pharm123, manager/mgr123');
+    insertUser.run('System Administrator', 'admin', adminHash, 'ADMIN', 1);
+    insertUser.run('Tanvir Ahmed', 'pharmacist', pharmHash, 'PHARMACIST', 1);
+    insertUser.run('Shirin Akter', 'manager', mgrHash, 'INVENTORY_MANAGER', 1);
+    console.log('Production users ready: admin, pharmacist, manager');
   }
 
   // 3. Generics
@@ -488,90 +488,11 @@ function seedDatabase() {
     `);
 
     for (const c of customersList) {
-      insertCust.run(c[0], c[1], c[2], c[3]);
+      insertCust.run(c[0], c[1], c[2], 0.0);
     }
   }
 
-  // 9. Sample Sales & Invoices to enable reporting & analytics immediately out-of-the-box!
-  const saleCount = db.prepare('SELECT COUNT(*) as count FROM sales_invoices').get().count;
-  if (saleCount === 0) {
-    console.log('Seeding sample sales transactions for analytics...');
-    const user = db.prepare('SELECT user_id FROM users WHERE username = ?').get('pharmacist');
-    const cust = db.prepare('SELECT customer_id FROM customers WHERE phone = ?').get('01712345678');
-    const napaBatch = db.prepare(`
-      SELECT b.batch_id, b.selling_price_piece, b.purchase_price_piece 
-      FROM medicine_batches b 
-      JOIN medicines m ON b.medicine_id = m.medicine_id 
-      WHERE m.brand_name = 'Napa Extra' AND b.batch_number = 'NX-2026A'
-    `).get();
-
-    const maxproBatch = db.prepare(`
-      SELECT b.batch_id, b.selling_price_piece, b.purchase_price_piece 
-      FROM medicine_batches b 
-      JOIN medicines m ON b.medicine_id = m.medicine_id 
-      WHERE m.brand_name = 'Maxpro 20mg' AND b.batch_number = 'MX-701'
-    `).get();
-
-    if (user && napaBatch && maxproBatch) {
-      // Invoice 1: Yesterday
-      const inv1 = db.prepare(`
-        INSERT INTO sales_invoices (invoice_number, customer_id, user_id, sale_date, subtotal, discount_amount, vat_amount, grand_total, paid_amount, due_amount, payment_method, payment_breakdown)
-        VALUES (?, ?, ?, datetime('now', '-1 day'), ?, ?, ?, ?, ?, ?, ?, ?)
-      `).run('INV-2026-0001', cust ? cust.customer_id : null, user.user_id, 340.00, 17.00, 16.15, 339.15, 339.15, 0.00, 'BKASH', JSON.stringify({ method: 'BKASH', trxId: 'BK9928174' }));
-
-      // Napa Extra 2 Strips (20 pieces) = 60.00
-      db.prepare(`
-        INSERT INTO sales_items (invoice_id, batch_id, sold_unit_type, qty_sold_in_unit, total_pieces_deducted, unit_price, subtotal)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-      `).run(inv1.lastInsertRowid, napaBatch.batch_id, 'STRIP', 2, 20, 30.00, 60.00);
-
-      // Maxpro 2 Strips (28 pieces) = 280.00 (14 pcs per strip * 8 = 112 per strip) Wait: 2 strips * 112 = 224.
-      db.prepare(`
-        INSERT INTO sales_items (invoice_id, batch_id, sold_unit_type, qty_sold_in_unit, total_pieces_deducted, unit_price, subtotal)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-      `).run(inv1.lastInsertRowid, maxproBatch.batch_id, 'STRIP', 2, 28, 112.00, 224.00);
-
-      // Invoice 2: Today (Walk-in Cash)
-      const inv2 = db.prepare(`
-        INSERT INTO sales_invoices (invoice_number, customer_id, user_id, sale_date, subtotal, discount_amount, vat_amount, grand_total, paid_amount, due_amount, payment_method, payment_breakdown)
-        VALUES (?, ?, ?, datetime('now', '-2 hours'), ?, ?, ?, ?, ?, ?, ?, ?)
-      `).run('INV-2026-0002', null, user.user_id, 90.00, 0.00, 4.50, 94.50, 100.00, 0.00, 'CASH', JSON.stringify({ method: 'CASH', tendered: 100.00, change: 5.50 }));
-
-      db.prepare(`
-        INSERT INTO sales_items (invoice_id, batch_id, sold_unit_type, qty_sold_in_unit, total_pieces_deducted, unit_price, subtotal)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-      `).run(inv2.lastInsertRowid, napaBatch.batch_id, 'STRIP', 3, 30, 30.00, 90.00);
-
-      // Invoice 3: Today (Due sale with customer)
-      const cust2 = db.prepare('SELECT customer_id FROM customers WHERE phone = ?').get('01712345678');
-      if (cust2) {
-        const inv3 = db.prepare(`
-          INSERT INTO sales_invoices (invoice_number, customer_id, user_id, sale_date, subtotal, discount_amount, vat_amount, grand_total, paid_amount, due_amount, payment_method, payment_breakdown)
-          VALUES (?, ?, ?, datetime('now', '-30 minutes'), ?, ?, ?, ?, ?, ?, ?, ?)
-        `).run('INV-2026-0003', cust2.customer_id, user.user_id, 160.00, 10.00, 7.50, 157.50, 100.00, 57.50, 'SPLIT', JSON.stringify({ method: 'SPLIT', cash: 100.00, due: 57.50 }));
-
-        db.prepare(`
-          INSERT INTO sales_items (invoice_id, batch_id, sold_unit_type, qty_sold_in_unit, total_pieces_deducted, unit_price, subtotal)
-          VALUES (?, ?, ?, ?, ?, ?, ?)
-        `).run(inv3.lastInsertRowid, maxproBatch.batch_id, 'PIECE', 20, 20, 8.00, 160.00);
-      }
-    }
-  }
-
-  // 10. Sample Damage write-off
-  const writeOffCount = db.prepare('SELECT COUNT(*) as count FROM damage_write_offs').get().count;
-  if (writeOffCount === 0) {
-    const expiredBatch = db.prepare(`SELECT batch_id, purchase_price_piece FROM medicine_batches WHERE batch_number = 'NX-EXP-OLD'`).get();
-    const adminUser = db.prepare(`SELECT user_id FROM users WHERE username = 'admin'`).get();
-    if (expiredBatch && adminUser) {
-      db.prepare(`
-        INSERT INTO damage_write_offs (batch_id, user_id, quantity_pieces, reason, loss_amount, notes)
-        VALUES (?, ?, ?, ?, ?, ?)
-      `).run(expiredBatch.batch_id, adminUser.user_id, 10, 'EXPIRED', 10 * expiredBatch.purchase_price_piece, 'Expired past safe date. Written off from active stock.');
-    }
-  }
-
-  console.log('Database seeded successfully!');
+  console.log('Database master data verified and clean!');
 }
 
 seedDatabase();

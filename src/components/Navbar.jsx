@@ -14,12 +14,11 @@ import {
   Keyboard,
   ShieldCheck,
   ChevronDown,
-  LogOut,
-  UserCheck
+  LogOut
 } from 'lucide-react';
 
 export default function Navbar({ activeTab, setActiveTab }) {
-  const { user, settings, alertsCount, loginAsDemo, logout } = useAuth();
+  const { user, settings, alertsCount, logout } = useAuth();
   const [showRoleMenu, setShowRoleMenu] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
 
@@ -54,7 +53,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
               <h1 className="text-lg font-bold text-white tracking-tight flex items-center gap-1.5">
                 {settings.pharmacy_name || 'MediCare POS'}
                 <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                  FEFO v2.6
+                  v1.0 Pro
                 </span>
               </h1>
             </div>
@@ -93,7 +92,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
             )}
           </button>
 
-          {/* User Profile & Demo Switcher */}
+          {/* User Profile Menu */}
           <div className="relative">
             <button
               onClick={() => setShowRoleMenu(!showRoleMenu)}
@@ -109,65 +108,44 @@ export default function Navbar({ activeTab, setActiveTab }) {
                     {user?.role}
                   </span>
                 </div>
-                <div className="text-[11px] text-slate-400">Switch Demo Role ▾</div>
+                <div className="text-[11px] text-slate-400">Account & Profile ▾</div>
               </div>
               <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
             </button>
 
-            {/* Role Menu Dropdown */}
+            {/* Profile Dropdown */}
             {showRoleMenu && (
               <div className="absolute right-0 mt-2 w-64 rounded-xl bg-slate-800 border border-slate-700 shadow-2xl p-2 z-50 animate-in fade-in slide-in-from-top-2">
-                <div className="px-3 py-2 border-b border-slate-700/60 mb-1">
-                  <p className="text-xs font-semibold text-slate-200">Switch Demo Role (RBAC)</p>
-                  <p className="text-[11px] text-slate-400">Test permissions specified in SRS</p>
+                <div className="px-3 py-2 border-b border-slate-700/60 mb-1.5">
+                  <p className="text-xs font-semibold text-slate-200">{user?.full_name || 'Staff'}</p>
+                  <p className="text-[11px] text-slate-400 font-mono">@{user?.username} • {user?.role}</p>
                 </div>
+
+                {user?.role === 'ADMIN' && (
+                  <button
+                    onClick={() => {
+                      setActiveTab('settings');
+                      setShowRoleMenu(false);
+                    }}
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-slate-700 hover:text-white transition-colors"
+                  >
+                    <Settings className="w-4 h-4 text-emerald-400" />
+                    <span>Users & Settings</span>
+                  </button>
+                )}
+
                 <button
-                  onClick={async () => {
-                    await loginAsDemo('admin');
+                  onClick={() => {
+                    setActiveTab('pos');
                     setShowRoleMenu(false);
                   }}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-colors ${
-                    user?.role === 'ADMIN' ? 'bg-emerald-500/20 text-emerald-300 font-semibold' : 'text-slate-300 hover:bg-slate-700'
-                  }`}
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-slate-300 hover:bg-slate-700 hover:text-white transition-colors"
                 >
-                  <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                    <span>Admin (Dr. Rafiqul)</span>
-                  </div>
-                  <span className="text-[10px] text-slate-400">Full Access</span>
-                </button>
-                <button
-                  onClick={async () => {
-                    await loginAsDemo('pharmacist');
-                    setShowRoleMenu(false);
-                  }}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-colors ${
-                    user?.role === 'PHARMACIST' ? 'bg-sky-500/20 text-sky-300 font-semibold' : 'text-slate-300 hover:bg-slate-700'
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <UserCheck className="w-4 h-4 text-sky-400" />
-                    <span>Pharmacist (Tanvir)</span>
-                  </div>
-                  <span className="text-[10px] text-slate-400">POS & Returns</span>
-                </button>
-                <button
-                  onClick={async () => {
-                    await loginAsDemo('manager');
-                    setShowRoleMenu(false);
-                  }}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-colors ${
-                    user?.role === 'INVENTORY_MANAGER' ? 'bg-amber-500/20 text-amber-300 font-semibold' : 'text-slate-300 hover:bg-slate-700'
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <Boxes className="w-4 h-4 text-amber-400" />
-                    <span>Inventory Mgr (Shirin)</span>
-                  </div>
-                  <span className="text-[10px] text-slate-400">Stock & Purchases</span>
+                  <ShoppingCart className="w-4 h-4 text-sky-400" />
+                  <span>POS Terminal</span>
                 </button>
 
-                {/* Log Out / Switch Account */}
+                {/* Log Out */}
                 <div className="pt-1.5 mt-1.5 border-t border-slate-700/60">
                   <button
                     onClick={() => {
@@ -178,7 +156,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
                   >
                     <div className="flex items-center gap-2">
                       <LogOut className="w-4 h-4" />
-                      <span>Log Out / Switch Account</span>
+                      <span>Sign Out</span>
                     </div>
                   </button>
                 </div>

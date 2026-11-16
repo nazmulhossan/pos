@@ -258,10 +258,10 @@ export default function ReportsView() {
             </div>
             <h3 className="text-base font-bold text-white">Restricted Access (Role-Based Access Control)</h3>
             <p className="text-xs text-slate-400 max-w-md mx-auto">
-              Per Section 3.1 of the SRS specification, <strong>Pharmacists / Cashiers</strong> are strictly restricted from viewing batch purchase costs and financial profit margins.
+              Cashiers and Pharmacists are restricted from viewing wholesale purchase costs and gross profit margin statements.
             </p>
             <p className="text-xs text-emerald-400 font-semibold">
-              Please switch demo role to <strong>Admin (Dr. Rafiqul)</strong> in the top header to view the full P&L financial statement.
+              Please sign in with an Administrator account to view full financial reports.
             </p>
           </div>
         ) : profitLossData ? (

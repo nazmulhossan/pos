@@ -74,16 +74,6 @@ export function AuthProvider({ children }) {
     return res;
   };
 
-  const loginAsDemo = async (roleType) => {
-    const credentials = {
-      admin: { u: 'admin', p: 'admin123' },
-      pharmacist: { u: 'pharmacist', p: 'pharm123' },
-      manager: { u: 'manager', p: 'mgr123' }
-    };
-    const cred = credentials[roleType] || credentials.admin;
-    return await login(cred.u, cred.p);
-  };
-
   const logout = () => {
     localStorage.removeItem('pos_token');
     setToken(null);
@@ -111,7 +101,6 @@ export function AuthProvider({ children }) {
       alertsCount,
       loading,
       login,
-      loginAsDemo,
       logout,
       refreshSettings
     }}>

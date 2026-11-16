@@ -56,7 +56,7 @@ function withFallback(apiCall, mockCall) {
       return await apiCall(...args);
     } catch (err) {
       // If network error, 404, or failed to connect, fall back to mock
-      console.warn('Backend unavailable, falling back to in-browser demo engine:', err.message);
+      console.warn('Backend unavailable, falling back to offline browser engine:', err.message);
       return await mockCall(...args);
     }
   };
