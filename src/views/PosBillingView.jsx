@@ -418,7 +418,8 @@ export default function PosBillingView() {
         items: cart.map(row => ({
           medicine_id: row.medicine.medicine_id,
           sold_unit_type: row.unit,
-          qty_sold_in_unit: row.quantity
+          qty_sold_in_unit: row.quantity,
+          unit_price: row.unit_price
         })),
         customer_id: customer ? customer.customer_id : null,
         discount_type: discountType,
@@ -436,6 +437,8 @@ export default function PosBillingView() {
       setCustomer(null);
       setPrescriptionUrl(null);
       setDiscountValue(0);
+      setSearchQuery('');
+      setSearchResults([]);
       setShowCheckoutModal(false);
       setCompletedInvoice(res.invoice);
     } catch (err) {

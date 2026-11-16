@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import {
   Pill,
   ShoppingCart,
@@ -14,11 +15,14 @@ import {
   Keyboard,
   ShieldCheck,
   ChevronDown,
-  LogOut
+  LogOut,
+  Sun,
+  Moon
 } from 'lucide-react';
 
 export default function Navbar({ activeTab, setActiveTab }) {
   const { user, settings, alertsCount, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [showRoleMenu, setShowRoleMenu] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
 
@@ -76,12 +80,25 @@ export default function Navbar({ activeTab, setActiveTab }) {
           <span className="bg-slate-900 px-1.5 py-0.5 rounded text-[11px] font-mono border border-slate-700">F10 Pay</span>
         </button>
 
-        {/* User Info & Role Switcher */}
-        <div className="flex items-center gap-3">
+        {/* Actions & Profile */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Light / Dark Mode Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors border border-slate-700/60 flex items-center justify-center cursor-pointer shadow-xs"
+            title={theme === 'dark' ? 'Switch to Default Light Mode' : 'Switch to Dark Mode'}
+          >
+            {theme === 'dark' ? (
+              <Sun className="w-4 h-4 text-amber-400" />
+            ) : (
+              <Moon className="w-4 h-4 text-indigo-400" />
+            )}
+          </button>
+
           {/* Alerts Bell */}
           <button
             onClick={() => setActiveTab('inventory')}
-            className="relative p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+            className="relative p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors border border-slate-700/60 cursor-pointer"
             title="View Inventory & Expiry Alerts"
           >
             <Bell className="w-4 h-4" />

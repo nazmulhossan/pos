@@ -1,6 +1,6 @@
 import initialData from './seedData.json';
 
-const STORAGE_KEY = 'pos_production_db_v2';
+const STORAGE_KEY = 'pos_v3_clean_store';
 
 function getDb() {
   const stored = localStorage.getItem(STORAGE_KEY);
@@ -98,23 +98,38 @@ export const mockApi = {
         .sort((a, b) => a.expiry_date.localeCompare(b.expiry_date));
 
       const totalActivePieces = activeBatches.reduce((acc, b) => acc + b.stock_qty_pieces, 0);
-      const totalStrips = med.pieces_per_strip > 0 ? (totalActivePieces / med.pieces_per_strip).toFixed(1) : 0;
+      const totalExpiredPieces = expiredBatches.reduce((acc, b) => acc + b.stock_qty_pieces, 0);
+      const totalStrips = med.pieces_per_strip > 0 ? +(totalActivePieces / med.pieces_per_strip).toFixed(1) : 0;
       const totalBoxes = (med.pieces_per_strip > 0 && med.strips_per_box > 0)
-        ? (totalActivePieces / (med.pieces_per_strip * med.strips_per_box)).toFixed(1)
+        ? +(totalActivePieces / (med.pieces_per_strip * med.strips_per_box)).toFixed(1)
         : 0;
 
       const defaultBatch = activeBatches[0] || (db.medicine_batches || []).find(b => b.medicine_id === med.medicine_id) || {};
+      const piecePrice = defaultBatch.selling_price_piece || 10;
+      const stripPrice = +(piecePrice * (med.pieces_per_strip || 10)).toFixed(2);
+      const boxPrice = +(stripPrice * (med.strips_per_box || 10)).toFixed(2);
 
       return {
         ...med,
+        available_pieces: totalActivePieces,
+        totalActivePieces,
+        expired_pieces: totalExpiredPieces,
+        is_low_stock: totalActivePieces <= (med.reorder_level || 50),
+        prices: {
+          PIECE: piecePrice,
+          STRIP: stripPrice,
+          BOX: boxPrice
+        },
+        fe_fo_batch: activeBatches[0] || null,
+        active_batches: activeBatches,
         activeBatches,
         expiredBatches,
-        totalActivePieces,
+        has_expired_stock: expiredBatches.length > 0,
         totalStrips,
         totalBoxes,
-        sellingPricePiece: defaultBatch.selling_price_piece || 10,
-        sellingPriceStrip: (defaultBatch.selling_price_piece || 10) * (med.pieces_per_strip || 10),
-        sellingPriceBox: (defaultBatch.selling_price_piece || 10) * (med.pieces_per_strip || 10) * (med.strips_per_box || 10),
+        sellingPricePiece: piecePrice,
+        sellingPriceStrip: stripPrice,
+        sellingPriceBox: boxPrice,
         earliestExpiry: defaultBatch.expiry_date || null
       };
     });
@@ -131,14 +146,26 @@ export const mockApi = {
       .map(m => {
         const mf = db.manufacturers.find(x => x.manufacturer_id === m.manufacturer_id) || {};
         const activeBatches = (db.medicine_batches || [])
-          .filter(b => b.medicine_id === m.medicine_id && b.stock_qty_pieces > 0 && b.expiry_date >= today);
+          .filter(b => b.medicine_id === m.medicine_id && b.stock_qty_pieces > 0 && b.expiry_date >= today)
+          .sort((a, b) => a.expiry_date.localeCompare(b.expiry_date));
         const totalPieces = activeBatches.reduce((acc, b) => acc + b.stock_qty_pieces, 0);
         const firstBatch = activeBatches[0] || {};
+        const piecePrice = firstBatch.selling_price_piece || 10;
+        const stripPrice = +(piecePrice * (m.pieces_per_strip || 10)).toFixed(2);
+        const boxPrice = +(stripPrice * (m.strips_per_box || 10)).toFixed(2);
+
         return {
           ...m,
           manufacturer_name: mf.name || '',
+          available_pieces: totalPieces,
           totalActivePieces: totalPieces,
-          sellingPricePiece: firstBatch.selling_price_piece || 10
+          prices: {
+            PIECE: piecePrice,
+            STRIP: stripPrice,
+            BOX: boxPrice
+          },
+          sellingPricePiece: piecePrice,
+          fe_fo_batch: activeBatches[0] || null
         };
       });
 
@@ -251,7 +278,7 @@ export const mockApi = {
       let multiplier = 1;
       if (item.sold_unit_type === 'STRIP') multiplier = med ? med.pieces_per_strip : 10;
       if (item.sold_unit_type === 'BOX') multiplier = med ? (med.pieces_per_strip * med.strips_per_box) : 100;
-      const totalPiecesNeeded = (item.qty_sold_in_unit || 1) * multiplier;
+      const totalPiecesNeeded = Math.round((item.qty_sold_in_unit || 1) * multiplier);
 
       let remaining = totalPiecesNeeded;
       const batches = (db.medicine_batches || [])
@@ -265,16 +292,29 @@ export const mockApi = {
         remaining -= deduct;
       });
 
-      const lineTotal = (item.unit_price || 10) * (item.qty_sold_in_unit || 1);
+      const firstBatch = (db.medicine_batches || []).find(b => b.medicine_id === item.medicine_id) || {};
+      const piecePrice = firstBatch.selling_price_piece || 10;
+      let calculatedUnitPrice = item.unit_price;
+      if (!calculatedUnitPrice) {
+        if (item.sold_unit_type === 'STRIP') calculatedUnitPrice = +(piecePrice * (med ? med.pieces_per_strip : 10)).toFixed(2);
+        else if (item.sold_unit_type === 'BOX') calculatedUnitPrice = +(piecePrice * (med ? med.pieces_per_strip * med.strips_per_box : 100)).toFixed(2);
+        else calculatedUnitPrice = piecePrice;
+      }
+
+      const lineTotal = +(calculatedUnitPrice * (item.qty_sold_in_unit || 1)).toFixed(2);
       subtotal += lineTotal;
 
       billedItems.push({
+        batch_id: batches[0]?.batch_id || null,
+        batch_number: batches[0]?.batch_number || 'BATCH-01',
+        medicine_id: item.medicine_id,
         brand_name: med ? med.brand_name : 'Item',
         dosage_form: med ? med.dosage_form : '',
         strength: med ? med.strength : '',
         sold_unit_type: item.sold_unit_type,
         qty_sold_in_unit: item.qty_sold_in_unit,
-        unit_price: item.unit_price || 10,
+        total_pieces_deducted: totalPiecesNeeded,
+        unit_price: calculatedUnitPrice,
         subtotal: lineTotal
       });
     });
@@ -304,6 +344,15 @@ export const mockApi = {
     };
 
     db.sales_invoices.unshift(invoice);
+
+    if (!db.sales_items) db.sales_items = [];
+    billedItems.forEach(bi => {
+      db.sales_items.push({
+        sales_item_id: db.sales_items.length + 1,
+        invoice_id: invoiceSeq,
+        ...bi
+      });
+    });
 
     // Customer loyalty & balance update
     let customer = null;
@@ -397,15 +446,45 @@ export const mockApi = {
   // Inventory & Batches
   getBatches: async (medicineId) => {
     const db = getDb();
+    const today = new Date();
     let list = (db.medicine_batches || []).map(b => {
       const med = (db.medicines || []).find(m => m.medicine_id === b.medicine_id) || {};
+      const g = (db.generics || []).find(x => x.generic_id === med.generic_id) || {};
+      const mf = (db.manufacturers || []).find(x => x.manufacturer_id === med.manufacturer_id) || {};
+
+      const expDate = new Date(b.expiry_date);
+      const diffTime = expDate - today;
+      const daysUntilExpiry = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      let expiryStatus = 'VALID';
+      if (daysUntilExpiry < 0) {
+        expiryStatus = 'EXPIRED';
+      } else if (daysUntilExpiry <= 30) {
+        expiryStatus = 'EXPIRING_30_DAYS';
+      } else if (daysUntilExpiry <= 60) {
+        expiryStatus = 'EXPIRING_60_DAYS';
+      } else if (daysUntilExpiry <= 90) {
+        expiryStatus = 'EXPIRING_90_DAYS';
+      }
+
+      const piecesPerStrip = med.pieces_per_strip || 10;
+      const strips = Math.floor(b.stock_qty_pieces / piecesPerStrip);
+      const remainingPieces = b.stock_qty_pieces % piecesPerStrip;
+
       return {
         ...b,
         brand_name: med.brand_name || '',
+        generic_name: g.generic_name || '',
+        manufacturer_name: mf.name || '',
         dosage_form: med.dosage_form || '',
         strength: med.strength || '',
-        pieces_per_strip: med.pieces_per_strip || 10,
-        strips_per_box: med.strips_per_box || 10
+        barcode: med.barcode || '',
+        pieces_per_strip: piecesPerStrip,
+        strips_per_box: med.strips_per_box || 10,
+        reorder_level: med.reorder_level || 50,
+        days_until_expiry: daysUntilExpiry,
+        expiry_status: expiryStatus,
+        stock_summary: `${strips} Strips, ${remainingPieces} Pcs (${b.stock_qty_pieces} total pieces)`
       };
     });
     if (medicineId) {
