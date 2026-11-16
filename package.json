@@ -1,8 +1,8 @@
 {
   "name": "pos",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Pharmacy Billing and Inventory Management System with FEFO batch engine",
+  "main": "server/server.js",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "client": "vite",
@@ -12,11 +12,17 @@
     "seed": "node server/db/seed.js",
     "test": "node server/test-api.js"
   },
+  "engines": {
+    "node": ">=22.5.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "@vitejs/plugin-react": "^6.3.0",
+    "autoprefixer": "^10.6.2",
     "bcryptjs": "^3.0.3",
     "canvas-confetti": "^1.9.4",
     "concurrently": "^10.0.7",
@@ -26,19 +32,16 @@
     "jsonwebtoken": "^9.0.3",
     "lucide-react": "^1.73.0",
     "multer": "^2.5.0",
+    "postcss": "^8.5.33",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "tailwindcss": "^4.3.5",
+    "vite": "^8.3.8"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.3.5",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
-    "@vitejs/plugin-react": "^6.3.0",
-    "autoprefixer": "^10.6.2",
     "jsdom": "^29.1.1",
-    "postcss": "^8.5.33",
-    "tailwindcss": "^4.3.5",
-    "vite": "^8.3.8",
     "vitest": "^4.1.12"
   }
 }

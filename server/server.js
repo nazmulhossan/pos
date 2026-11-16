@@ -97,8 +97,8 @@ if (fs.existsSync(distPath)) {
 }
 
 // Start server
-const server = app.listen(PORT, () => {
-  console.log(`Pharmacy POS Backend Server running on http://localhost:${PORT}`);
+const server = app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Pharmacy POS Backend Server running on port ${PORT}`);
 });
 
 module.exports = { app, server };
